@@ -34,14 +34,16 @@ app.get("/video",(req, res) => {
     //Range = bytes=1234-
     const videoPath = "NodeVideo.mp4";
     const videoSize = fs.statSync("NodeVideo.mp4").size;
-
-    const chunkSize =  10 ** 6; //1 MB
-
     
-    const start = Number(range.replace(/\D/g,""));
+    //Here we decide how much data are we gonna send in upon every request made by the browser.
+    const chunkSize =  10 ** 6; //1 MB
+    
     //Here we remove "-" from the range.
+    const start = Number(range.replace(/\D/g,""));
+    
     //end will have min of either two and it's used to stop video streaming when we reach max video size
     const end = Math.min(chunkSize+start,videoSize-1);
+    
     const contentLength = end - start + 1 ;
 
     const headers = {
