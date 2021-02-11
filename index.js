@@ -37,10 +37,10 @@ app.get("/video",(req, res) => {
 
     const chunkSize =  10 ** 6; //1 MB
 
-    //var name Should be "start"
+    
     const start = Number(range.replace(/\D/g,""));
     //Here we remove "-" from the range.
-    //var name should be end and end will have min of either two and it's used to stop video streaming when we reach max video size
+    //end will have min of either two and it's used to stop video streaming when we reach max video size
     const end = Math.min(chunkSize+start,videoSize-1);
     const contentLength = end - start + 1 ;
 
@@ -52,7 +52,7 @@ app.get("/video",(req, res) => {
     };
     //Response Code 206 is for Partial Content.
     res.writeHead(206,headers);
-    const videoStream = fs.createReadStream(videoPath,{start ,end});
+    const videoStream = fs.createReadStream(videoPath,{"start":start ,"end":end});
     /*Pipe basically allows us to plug stream together passing data from one stream to another
      without having to worry about events as streams are based on events.
     */
